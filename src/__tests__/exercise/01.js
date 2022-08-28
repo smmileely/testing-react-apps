@@ -11,7 +11,30 @@ import Counter from '../../components/counter'
 // Luckily, it's handled for you by React Testing Library :)
 global.IS_REACT_ACT_ENVIRONMENT = true
 
+// clean up before each of the test
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
 test('counter increments and decrements when the buttons are clicked', () => {
+  const div = document.createElement('div')
+  document.body.append(div)
+
+  const root = createRoot(div)
+  act(() => root.render(<Counter />))
+  // console.log(document.body.innerHTML)
+  const [decrement, increment] = div.querySelectorAll('button')
+  const message = div.firstChild.querySelector('div')
+  // console.log(message.textContent)
+
+  expect(message.textContent).toBe('Current count: 0')
+  act(() => increment.click())
+  // console.log(document.body.innerHTML)
+  //assert
+  expect(message.textContent).toBe('Current count: 1')
+  act(() => decrement.click())
+  expect(message.textContent).toBe('Current count: 0')
+
   // 🐨 create a div to render your component to (💰 document.createElement)
   //
   // 🐨 append the div to document.body (💰 document.body.append)
