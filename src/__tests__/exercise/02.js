@@ -6,6 +6,7 @@ import {act} from 'react-dom/test-utils'
 import {createRoot} from 'react-dom/client'
 // 🐨 import the `render` and `fireEvent` utilities from '@testing-library/react'
 import {render, fireEvent, screen} from '@testing-library/react'
+// import '@testing-library/jest-dom'
 import Counter from '../../components/counter'
 
 // NOTE: this is a new requirement in React 18
@@ -41,25 +42,26 @@ test('counter increments and decrements when the buttons are clicked', () => {
   const [decrement, increment] = container.querySelectorAll('button')
   const message = container.firstChild.querySelector('div')
 
-  expect(message.textContent).toBe('Current count: 0')
+  expect(message).toHaveTextContent('Current count: 0')
 
   // 🐨 replace the next two statements with `fireEvent.click(button)`
   // 💰 note that you can remove `act` completely!
-  const incrementClickEvent = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-    button: 0,
-  })
-  act(() => increment.dispatchEvent(incrementClickEvent))
-  fireEvent.click(button)
-  expect(message.textContent).toBe('Current count: 1')
-  const decrementClickEvent = new MouseEvent('click', {
-    bubbles: true,
-    cancelable: true,
-    button: 0,
-  })
-  act(() => decrement.dispatchEvent(decrementClickEvent))
-  expect(message.textContent).toBe('Current count: 0')
+  // const incrementClickEvent = new MouseEvent('click', {
+  //   bubbles: true,
+  //   cancelable: true,
+  //   button: 0,
+  // })
+  // act(() => increment.dispatchEvent(incrementClickEvent))
+  fireEvent.click(increment)
+  expect(message).toHaveTextContent('Current count: 1')
+  // const decrementClickEvent = new MouseEvent('click', {
+  //   bubbles: true,
+  //   cancelable: true,
+  //   button: 0,
+  // })
+  // act(() => decrement.dispatchEvent(decrementClickEvent))
+  fireEvent.click(decrement)
+  expect(message).toHaveTextContent('Current count: 0')
 
   screen.debug()
 })
