@@ -4,7 +4,15 @@
 import * as React from 'react'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import faker from 'faker'
 import Login from '../../components/login'
+
+function buildLoginForm() {
+  return {
+    username: faker.internet.userName(),
+    password: faker.internet.password(),
+  }
+}
 
 test('submitting the form calls onSubmit with username and password', async () => {
   // 🐨 create a variable called "submittedData" and a handleSubmit function that
@@ -18,8 +26,9 @@ test('submitting the form calls onSubmit with username and password', async () =
   //
   // render login component
   render(<Login onSubmit={handleSubmit} />)
-  const username = 'chucknorris'
-  const password = 'i need no password'
+  // const username = 'chucknorris'
+  // const password = 'i need no password'
+  const {username, password} = buildLoginForm()
 
   // get from testing playground in chrome extension
   // screen.getByRole('textbox', {name: /username/i})
@@ -47,7 +56,7 @@ test('submitting the form calls onSubmit with username and password', async () =
     username,
     password,
   })
-  // make sure submithandler is called once
+  // make sure onsubmit handler is called once
   expect(handleSubmit).toHaveBeenCalledTimes(1)
 })
 
