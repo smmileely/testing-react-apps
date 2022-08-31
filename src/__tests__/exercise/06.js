@@ -48,10 +48,8 @@ test('displays the users current location', async () => {
   //assertion
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
 
-  await act(async () => {
-    resolve()
-    await promise
-  })
+  resolve()
+  await promise
 
   screen.debug()
   expect(screen.queryByLabelText(/loading/i)).not.toBeInTheDocument()
