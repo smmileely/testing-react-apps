@@ -79,8 +79,13 @@ test('omitting the password results in an error', async () => {
   // not going to fill in pwd
   await userEvent.click(screen.getByRole('button', {name: /submit/i}))
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
-  screen.debug()
+  // screen.debug()
 
   //make use of screen.debug() to see what to expect
-  expect(screen.getByRole('alert')).toHaveTextContent('password required')
+  // expect(screen.getByRole('alert')).toHaveTextContent('password required')
+
+  //use inline snapshots for error messages, it takes in no argument, and when you run the test it will update the code automatically/the error msg
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
