@@ -7,10 +7,11 @@ import userEvent from '@testing-library/user-event'
 import faker from 'faker'
 import Login from '../../components/login'
 
-function buildLoginForm() {
+function buildLoginForm(overrides) {
   return {
     username: faker.internet.userName(),
     password: faker.internet.password(),
+    ...overrides,
   }
 }
 
@@ -28,7 +29,7 @@ test('submitting the form calls onSubmit with username and password', async () =
   render(<Login onSubmit={handleSubmit} />)
   // const username = 'chucknorris'
   // const password = 'i need no password'
-  const {username, password} = buildLoginForm()
+  const {username, password} = buildLoginForm({username: 'chucknorris'})
 
   // get from testing playground in chrome extension
   // screen.getByRole('textbox', {name: /username/i})
