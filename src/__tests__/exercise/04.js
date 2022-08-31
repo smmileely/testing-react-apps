@@ -29,7 +29,7 @@ test('submitting the form calls onSubmit with username and password', async () =
   render(<Login onSubmit={handleSubmit} />)
   // const username = 'chucknorris'
   // const password = 'i need no password'
-  const {username, password} = buildLoginForm({username: 'chucknorris'})
+  const {username, password} = buildLoginForm()
 
   // get from testing playground in chrome extension
   // screen.getByRole('textbox', {name: /username/i})
