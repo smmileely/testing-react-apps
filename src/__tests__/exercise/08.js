@@ -6,6 +6,17 @@ import {render, act} from '@testing-library/react'
 // import userEvent from '@testing-library/user-event'
 import useCounter from '../../components/use-counter'
 
+function setup({initialProps} = {}) {
+  const result = {}
+  function TestComponent() {
+    result.current = useCounter(initialProps)
+    return null
+  }
+  // 🐨 render the component
+  render(<TestComponent />)
+  return result
+}
+
 // 🐨 create a simple function component that uses the useCounter hook
 // and then exposes some UI that our test can interact with to test the
 // capabilities of this hook
@@ -22,19 +33,12 @@ import useCounter from '../../components/use-counter'
 // }
 
 test('exposes the count and increment/decrement functions', () => {
-  let result
-  function TestComponent() {
-    result = useCounter()
-    return null
-  }
-  // 🐨 render the component
-  render(<TestComponent />)
-  // console.log(result)
-  expect(result.count).toBe(0)
-  act(() => result.increment())
-  expect(result.count).toBe(1)
-  act(() => result.decrement())
-  expect(result.count).toBe(0)
+  const result = setup()
+  expect(result.current.count).toBe(0)
+  act(() => result.current.increment())
+  expect(result.current.count).toBe(1)
+  act(() => result.current.decrement())
+  expect(result.current.count).toBe(0)
   // 🐨 get the elements you need using screen
   // const increment = screen.getByRole('button', {name: /increment/i})
   // const decrement = screen.getByRole('button', {name: /decrement/i})
@@ -49,3 +53,20 @@ test('exposes the count and increment/decrement functions', () => {
 })
 
 /* eslint no-unused-vars:0 */
+test('allows customization of the initial count', () => {
+  const result = setup({initialProps: {initialCount: 3}})
+  expect(result.current.count).toBe(3)
+  act(() => result.current.increment())
+  expect(result.current.count).toBe(4)
+  act(() => result.current.decrement())
+  expect(result.current.count).toBe(3)
+})
+
+test('allows customization of the step', () => {
+  const result = setup({initialProps: {step: 2}})
+  expect(result.current.count).toBe(0)
+  act(() => result.current.increment())
+  expect(result.current.count).toBe(2)
+  act(() => result.current.decrement())
+  expect(result.current.count).toBe(0)
+})
